@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  frontend:
+    container_name: react-skeleton
+    image: react-skeleton
+    build: .
+    ports:
+      - "8081:80"
+    environment:
+      - VITE_NODE_ENV=docker   
