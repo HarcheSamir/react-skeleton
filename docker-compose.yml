@@ -8,4 +8,6 @@ services:
     ports:
       - "8081:80"
     environment:
-      - VITE_NODE_ENV=docker   
+      - VITE_NODE_ENV=docker  
+    extra_hosts:
+      - "host.docker.internal:host-gateway" 
