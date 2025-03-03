@@ -73,6 +73,7 @@ export const useAuthStore = create((set, get) => ({
 
     } catch (error) {
       console.error('Error fetching user:', error)
+      console.log(error)
       // If the token is invalid or expired, the server will return 401
       // In that case, we should clear the token and log the user out
       if (error.response?.status === 401) {
