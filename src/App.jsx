@@ -19,32 +19,16 @@ import WithAuth from './hocs/WithAuth'
 import WithRole from './hocs/WithRole'
 
 const App = () => {
-  const fetchUser = useAuthStore(state => state.fetchUser)
-  const isLoading = useAuthStore(state => state.isLoading)
+  
 
-  useEffect(() => {
-    console.log("VITE_API_URL value:", import.meta.env.VITE_API_URL);
-    const token = localStorage.getItem('token')
-    if (token) {
-      fetchUser()
-    }
-  }, [fetchUser])
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    )
-  }
 
   return (
     <Router>
       <Toaster position="top-right" />
       <Routes>
         {/* Public routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<WithAuth><Login /></WithAuth>} />
+        <Route path="/register" element={<WithAuth><Register /></WithAuth>} />
         
         {/* Protected routes */}
         <Route path="/" element={<WithAuth><Dashboard /></WithAuth>} />

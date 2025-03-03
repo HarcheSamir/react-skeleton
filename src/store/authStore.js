@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 export const useAuthStore = create((set, get) => ({
   user: null,
   isAuthenticated: false,
-  isLoading: true,
+  isLoading: false,
   error: null,
 
   // Login user
@@ -60,26 +60,34 @@ export const useAuthStore = create((set, get) => ({
     try {
       set({ isLoading: true })
       
-      // Parse the JWT token to get the user info
-      // This avoids an extra API call, as the user data is embedded in the token
-      const payload = JSON.parse(atob(token.split('.')[1]))
+      // Make an API call to fetch the user data
+      const response = await api.get('/auth/me')
+      const userData = response.data
       
       set({ 
-        user: {
-          id: payload.id,
-          name: payload.name,
-          email: payload.email,
-          role: payload.role
-        }, 
+        user: userData,
         isAuthenticated: true,
         isLoading: false
       })
+      console.log(userData)
+
     } catch (error) {
-      console.error('Error parsing token:', error)
-      localStorage.removeItem('token')
-      set({ user: null, isAuthenticated: false, isLoading: false, error: 'Session expired' })
+      console.error('Error fetching user:', error)
+      // If the token is invalid or expired, the server will return 401
+      // In that case, we should clear the token and log the user out
+      if (error.response?.status === 401) {
+        localStorage.removeItem('token')
+      }
+      set({ 
+        user: null, 
+        isAuthenticated: false, 
+        isLoading: false, 
+        error: error.response?.data?.message || 'Session expired' 
+      })
+      toast.error('Session expired. Please login again.')
     }
   },
+
 
   // Logout user
   logout: () => {
