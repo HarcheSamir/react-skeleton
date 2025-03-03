@@ -19,7 +19,12 @@ import WithAuth from './hocs/WithAuth'
 import WithRole from './hocs/WithRole'
 
 const App = () => {
+  const {fetchUser} = useAuthStore()
   
+  useEffect(()=>{
+    console.log(import.meta.env.VITE_API_URL)
+    fetchUser
+  },[])
 
 
   return (
