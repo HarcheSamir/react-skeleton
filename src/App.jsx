@@ -28,8 +28,8 @@ const App = () => {
       <Toaster position="top-right" />
       <Routes>
         {/* Public routes */}
-        <Route path="/login" element={<WithAuth><Login /></WithAuth>} />
-        <Route path="/register" element={<WithAuth><Register /></WithAuth>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         
         {/* Protected routes */}
         <Route path="/" element={<WithAuth><Dashboard /></WithAuth>} />
