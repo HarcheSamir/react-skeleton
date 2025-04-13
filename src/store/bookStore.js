@@ -19,7 +19,7 @@ export const useBookStore = create((set, get) => ({
   fetchBooks: async (page = 1, limit = 10) => {
     try {
       set({ isLoading: true, error: null })
-      const response = await api.get('/books', {
+      const response = await api.get('/book', {
         params: { page, limit }
       })
 
@@ -39,7 +39,7 @@ export const useBookStore = create((set, get) => ({
   fetchBookById: async (id) => {
     try {
       set({ isLoading: true, error: null, currentBook: null })
-      const response = await api.get(`/books/${id}`)
+      const response = await api.get(`/book/${id}`)
       set({ currentBook: response.data, isLoading: false })
       return response.data
     } catch (error) {
@@ -54,7 +54,7 @@ export const useBookStore = create((set, get) => ({
   createBook: async (bookData) => {
     try {
       set({ isLoading: true, error: null })
-      const response = await api.post('/books', bookData)
+      const response = await api.post('/book', bookData)
       
       // Update the book list
       const { books } = get()
@@ -74,7 +74,7 @@ export const useBookStore = create((set, get) => ({
   updateBook: async (id, bookData) => {
     try {
       set({ isLoading: true, error: null })
-      const response = await api.put(`/books/${id}`, bookData)
+      const response = await api.put(`/book/${id}`, bookData)
       
       // Update the books list and current book
       const { books } = get()
@@ -102,7 +102,7 @@ export const useBookStore = create((set, get) => ({
   deleteBook: async (id) => {
     try {
       set({ isLoading: true, error: null })
-      await api.delete(`/books/${id}`)
+      await api.delete(`/book/${id}`)
       
       // Update the books list
       const { books } = get()
